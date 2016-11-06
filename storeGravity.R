@@ -53,7 +53,7 @@ cvsCities <- make_cvsURLs(cvsWebpage,cvsRootURL)
 
 
 #attach city
-cityName <- sapply(cvsCities, function (x) unlist(strsplit(x,"/"))[5])
+cityName <- sapply(cvsCities, function (x) unlist(strsplit(x,"/"))[6])
 cvsSet <- data.frame(cvsCities,cityName, stringsAsFactors = FALSE)
 
 
