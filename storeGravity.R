@@ -53,36 +53,47 @@ cvsCities <- make_cvsURLs(cvsWebpage,cvsRootURL)
 
 
 #attach city
-cityName <- sapply(cvsCities, function (x) unlist(strsplit(x,"/"))[6])
+cityName <- sapply(cvsCities, function (x) unlist(strsplit(x,"/"))[7])
 cvsSet <- data.frame(cvsCities,cityName, stringsAsFactors = FALSE)
 
-
+#gather geodata for cities
+cityGeoQuery <- paste0(cityName, ", CA")
+cityGeo <- geocode(cityGeoQuery)
+cityNameGeo <- cbind(cityName,cityGeo)
 #collect address info from city page
-testURL <- paste0("http://www.cvs.com",cvsCities[3])
-testPage <-
-  testURL %>%
-  xml2::read_html()
-
-testaddress <-
-  testURL %>%
-  xml2::read_html() %>%
-  rvest::html_nodes(".store-address") %>%
-  html_text() %>%
-  str_replace_all(pattern = "\n", replacement = "") %>%
-  str_replace_all(pattern = "\t", replacement = "") %>%
-  str_replace_all(pattern = "\r", replacement = "")
+# testURL <- paste0("http://www.cvs.com",cvsCities[3])
+# testPage <-
+#   testURL %>%
+#   xml2::read_html()
+# 
+# testaddress <-
+#   testURL %>%
+#   xml2::read_html() %>%
+#   rvest::html_nodes(".store-address") %>%
+#   html_text() %>%
+#   str_replace_all(pattern = "\n", replacement = "") %>%
+#   str_replace_all(pattern = "\t", replacement = "") %>%
+#   str_replace_all(pattern = "\r", replacement = "")
   
 
 #function
-get_pageInfo <- function (x) {
-  pageInfo <-
-    x %>%
-    xml2::read_html()
-  return(pageInfo)
-}
-#retrieve address information
-cvsAddress <- lapply()
+# get_pageInfo <- function (x) {
+#   pageInfo <-
+#     x %>%
+#     xml2::read_html()
+#   return(pageInfo)
+# }
 
+#retrieve address information and consolidate
+cvsAddress <- lapply(cvsCities,get_cvsAddress)
+
+addrData <- data.frame(srcURL = rep(cvsCities, sapply(cvsAddress, FUN = length)),
+                       address = unlist(cvsAddress))
+
+#retrive lat-lon data from geocode
+geoData <- geocode(as.character(addrData[,2]))
+
+addrGeo <- cbind(addrData,geoData)
 #function
 
 ## ---
