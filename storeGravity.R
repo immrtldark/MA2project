@@ -40,17 +40,14 @@ get_cvsAddress <- function(x) {
 ## Gather information for CVS ---
 #url for CVS store locator
 cvsURL <- "http://www.cvs.com/store-locator/cvs-pharmacy-locations/California"
-
+cvsRootURL <- "http://www.cvs.com"
 #collect webpage information
 cvsWebpage <-
   cvsURL %>%
   xml2::read_html()
 
 #collect weblink information for cities table
-cvsCities <-
-  cvsWebpage %>%
-  rvest::html_nodes(xpath = '//*[@class="states"]/ul/li/a') %>%
-  html_attr("href")
+cvsCities <- make_cvsURLs(cvsWebpage,cvsRootURL)
 
 #function
 
