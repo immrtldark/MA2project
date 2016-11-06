@@ -8,6 +8,20 @@ library(rvest) #library needed for web scraping
 
 
 ### -- Functions -- ###
+
+#make_cvsURLs takes the xml2::html_read() input and then creates the full urls for
+#cities 
+make_cvsURLs <- function(x, rootURL) {
+  urls <-
+    x %>%
+    rvest::html_nodes(xpath = '//*[@class="states"]/ul/li/a') %>%
+    html_attr("href")
+  
+  urls <- paste0(rootURL,urls)
+  
+  return(urls)
+}
+
 #get_cvsAddress retrieves address string
 get_cvsAddress <- function(x) {
   address <- 
@@ -37,13 +51,9 @@ cvsCities <-
   cvsWebpage %>%
   rvest::html_nodes(xpath = '//*[@class="states"]/ul/li/a') %>%
   html_attr("href")
+
 #function
-make_cvsURLs <- function(x) {
-  urls <-
-    x %>%
-    revest::html_nodes(xpath = '//*[@class="states"]/ul/li/a') %>%
-    html_attr("href") 
-}
+
 
 #attach city
 cityName <- sapply(cvsCities, function (x) unlist(strsplit(x,"/"))[5])
@@ -74,13 +84,7 @@ get_pageInfo <- function (x) {
   return(pageInfo)
 }
 #retrieve address information
-cvsAddress <-
-  testPage %>%
-  rvest::html_nodes(".store-address") %>%
-  html_text() %>%
-  str_replace_all(pattern = "\n", replacement = "") %>%
-  str_replace_all(pattern = "\t", replacement = "") %>%
-  str_replace_all(pattern = "\r", replacement = "")
+cvsAddress <- lapply()
 
 #function
 
