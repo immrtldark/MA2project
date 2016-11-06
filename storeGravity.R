@@ -8,7 +8,19 @@ library(rvest) #library needed for web scraping
 
 
 ### -- Functions -- ###
-
+#get_cvsAddress retrieves address string
+get_cvsAddress <- function(x) {
+  address <- 
+    x %>%
+    xml2::read_html() %>%
+    rvest::html_nodes(".store-address") %>%
+    html_text() %>%
+    str_replace_all(pattern = "\n", replacement = "") %>%
+    str_replace_all(pattern = "\r", replacement = "") %>%
+    str_replace_all(pattern = "\t", replacement = "")
+  
+  return(address)
+}
 ### --
 
 ## Gather information for CVS ---
@@ -44,8 +56,23 @@ testPage <-
   testURL %>%
   xml2::read_html()
 
-#function
+testaddress <-
+  testURL %>%
+  xml2::read_html() %>%
+  rvest::html_nodes(".store-address") %>%
+  html_text() %>%
+  str_replace_all(pattern = "\n", replacement = "") %>%
+  str_replace_all(pattern = "\t", replacement = "") %>%
+  str_replace_all(pattern = "\r", replacement = "")
+  
 
+#function
+get_pageInfo <- function (x) {
+  pageInfo <-
+    x %>%
+    xml2::read_html()
+  return(pageInfo)
+}
 #retrieve address information
 cvsAddress <-
   testPage %>%
@@ -56,16 +83,7 @@ cvsAddress <-
   str_replace_all(pattern = "\r", replacement = "")
 
 #function
-get_cvsAddress <- function(x) {
-  address <- 
-    x %>%
-    rvest::html_nodes(".store-address") %>%
-    html_text() %>%
-    str_replace_all(pattern = "\n", replacement = "") %>%
-    str_replace_all(pattern = "\r", replacement = "") %>%
-    str_replace_all(pattern = "\t", replacement = "")
-  
-  return(address)
-}
+
 ## ---
+
 
