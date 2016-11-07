@@ -49,8 +49,6 @@ cvsWebpage <-
 #collect weblink information for cities table
 cvsCities <- make_cvsURLs(cvsWebpage,cvsRootURL)
 
-#function
-
 
 #attach city
 cityName <- sapply(cvsCities, function (x) unlist(strsplit(x,"/"))[7])
