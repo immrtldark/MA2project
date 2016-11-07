@@ -1,7 +1,7 @@
 library(stringr) #library for cleaning text
 library(ggmap) #library needed for geocoding
 library(rvest) #library needed for web scraping
-library(geosphere)
+library(geosphere) #library needed for distance calculation
 # add <- "Walgreens, Alameda"
 # 
 # g <- geocode(add)
