@@ -103,6 +103,19 @@ dataSet <- merge(addrGeo,cityNameGeo, by.x = "city", by.y = "cityName")
 
 saveRDS(dataSet, file = "~/Classes/UCB Extension/marketingAnalyticsII/MA2project/cvsDataSet.rds")
 
+distance <- c()
+for (i in 1:dim(dataSet)[1]) {
+  d <- distm(c(dataSet[i,4],dataSet[i,5]),c(dataSet[i,6],dataSet[i,7]))
+  distance <- append(distance,d)
+}
+
+dataSet$distance <-distance
+
+# testDist <- distm(c(dataSet[1,4],dataSet[1,5]),c(dataSet[1,6],dataSet[1,7]))
+# testDist2 <- apply(dataSet[1:5,],1, function(x) distm(c(x[6:7]),x[4:5]))
+
+
+dataSet$dist <- distm(c(dataSet$lat.x,dataSet$lon.x),c(dataSet$lat.y,dataSet$lon.y))
 #----
 
 zipCodes <- read.csv('~/Classes/UCB Extension/marketingAnalyticsII/MA2project/zip_code_database.csv')
