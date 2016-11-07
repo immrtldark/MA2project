@@ -1,7 +1,7 @@
 library(stringr) #library for cleaning text
 library(ggmap) #library needed for geocoding
 library(rvest) #library needed for web scraping
-
+library(geosphere)
 # add <- "Walgreens, Alameda"
 # 
 # g <- geocode(add)
@@ -94,8 +94,19 @@ addrData <- data.frame(srcURL = rep(cvsCities, sapply(cvsAddress, FUN = length))
 geoData <- geocode(as.character(addrData[,2]))
 
 addrGeo <- cbind(addrData,geoData)
-#function
+
+addrGeo$city <- sapply(as.character(addrGeo$srcURL), function (x) unlist(strsplit(x,"/"))[7])
 
 ## ---
+
+dataSet <- merge(addrGeo,cityNameGeo, by.x = "city", by.y = "cityName")
+
+saveRDS(dataSet, file = "~/Classes/UCB Extension/marketingAnalyticsII/MA2project/cvsDataSet.rds")
+
+#----
+
+zipCodes <- read.csv('~/Classes/UCB Extension/marketingAnalyticsII/MA2project/zip_code_database.csv')
+zipCodes.ca <- zipCodes[which(zipCodes$state == 'CA' & zipCodes$decommissioned != 1 & zipCodes$type == 'STANDARD'),]
+
 
 
