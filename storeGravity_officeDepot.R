@@ -23,7 +23,7 @@ make_odomURLs <- function(x, rootURL) {
   return(urls)
 }
 
-#get_cvsAddress retrieves address string
+#get_odomAddress retrieves address string
 get_odomAddress <- function(x) {
   address <- 
     x %>%
@@ -52,6 +52,10 @@ odomSet <- data.frame(odomCities,odomCityNames, stringsAsFactors = FALSE)
 
 
 #addresses
+
+odomAddress <- sapply(odomCities,get_odomAddress)
+odomAddress.city <- paste0(odomAddress,", ",odomCityNames,", CA")
+odomAddress.geoData <- geocode(odomAddress.city)
 
 address <- 
   odomCities[7] %>%
