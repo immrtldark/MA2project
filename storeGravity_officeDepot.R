@@ -64,3 +64,18 @@ address <-
   extract2(2) %>%
   html_nodes("a") %>%
   html_text()
+
+#city geocode
+cityGeoQuery <- paste0(odomSet$odomCityNames,", CA")
+cityGeoData <- geocode(cityGeoQuery)
+odomCityGeo <- cbind(odomSet,cityGeoData)
+
+odomData <- cbind(odomSet,odomAddress.geoData,cityGeoData)
+
+distance <- c()
+for (i in 1:dim(odomData)[1]) {
+  d <- distm(c(odomData[i,3],odomData[i,4]),c(odomData[i,5],odomData[i,6]))
+  distance <- append(distance,d)
+}
+
+odomData$distance <-distance

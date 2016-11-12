@@ -116,8 +116,8 @@ dataSet$distance <-distance
 dataSet$dist <- distm(c(dataSet$lat.x,dataSet$lon.x),c(dataSet$lat.y,dataSet$lon.y))
 #----
 
-zipCodes <- read.csv('~/Classes/UCB Extension/marketingAnalyticsII/MA2project/zip_code_database.csv')
-zipCodes.ca <- zipCodes[which(zipCodes$state == 'CA' & zipCodes$decommissioned != 1 & zipCodes$type == 'STANDARD'),]
+# zipCodes <- read.csv('~/Classes/UCB Extension/marketingAnalyticsII/MA2project/zip_code_database.csv')
+# zipCodes.ca <- zipCodes[which(zipCodes$state == 'CA' & zipCodes$decommissioned != 1 & zipCodes$type == 'STANDARD'),]
 
 
 
